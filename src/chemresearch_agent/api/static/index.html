@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>ChemResearch Agent</title>
+  <link rel="stylesheet" href="/ui/app.css">
+</head>
+<body>
+  <header class="hero">
+    <div>
+      <p class="eyebrow">ORGANIC CHEMISTRY PRESENTATION AGENT</p>
+      <h1>从论文到可编辑组会 PPT</h1>
+      <p>上传 PDF，或提供 DOI / PDF 直链；逐步确认要求并生成带来源备注的可编辑 PPTX。</p>
+    </div>
+    <div class="status-pill" id="session-status">尚未开始</div>
+  </header>
+
+  <main>
+    <nav class="stepper" aria-label="工作流进度">
+      <span data-stage="upload">1 上传论文</span>
+      <span data-stage="analysis">2 文献分析</span>
+      <span data-stage="interview">3 汇报要求</span>
+      <span data-stage="planning">4 审批规划</span>
+      <span data-stage="presentation">5 生成 PPT</span>
+    </nav>
+
+    <section class="panel" id="upload-panel">
+      <div class="panel-heading">
+        <div><p class="section-index">01</p><h2>上传论文</h2></div>
+        <p>支持单篇 PDF、DOI 或 HTTPS PDF 直链；远程论文必须具有合法开放全文。</p>
+      </div>
+      <label class="drop-zone" for="paper-file">
+        <input id="paper-file" type="file" accept="application/pdf,.pdf">
+        <span class="drop-title">选择 PDF 文件</span>
+        <span id="file-name">尚未选择文件</span>
+      </label>
+      <div class="source-divider"><span>或者</span></div>
+      <label class="source-url">DOI 或 PDF 直链
+        <input id="paper-source" type="text" placeholder="10.1021/... 或 https://.../paper.pdf">
+      </label>
+      <p class="source-note">不会绕过出版商付费墙；找不到开放全文时，请上传你有权使用的 PDF。</p>
+      <div class="actions"><button id="upload-button" class="primary" disabled>读取并解析</button></div>
+    </section>
+
+    <section class="panel hidden" id="analysis-panel">
+      <div class="panel-heading">
+        <div><p class="section-index">02</p><h2>文献分析</h2></div>
+        <p id="document-summary"></p>
+      </div>
+      <div id="analysis-summary" class="summary-box">PDF 已解析。点击下方按钮提取研究问题、创新点、关键结果和反应信息。</div>
+      <div class="actions"><button id="analysis-button" class="primary">开始文献分析</button></div>
+    </section>
+
+    <section class="panel hidden" id="interview-panel">
+      <div class="panel-heading">
+        <div><p class="section-index">03</p><h2>确认汇报要求</h2></div>
+        <p>每次只回答一个问题；推荐项已标记。</p>
+      </div>
+      <div id="question-card" class="question-card"></div>
+    </section>
+
+    <section class="panel hidden" id="plan-panel">
+      <div class="panel-heading">
+        <div><p class="section-index">04</p><h2>审批内容规划</h2></div>
+        <p>批准后 Composer 才能开始制作 PPT。</p>
+      </div>
+      <div id="plan-summary" class="plan-grid"></div>
+      <label class="revision-box">修改意见
+        <textarea id="revision-reason" rows="3" placeholder="例如：把完整催化循环提前到反应设计之后。"></textarea>
+      </label>
+      <div class="actions split">
+        <button id="revision-button" class="secondary">提交修改意见并重新规划</button>
+        <button id="approval-button" class="primary">批准规划</button>
+      </div>
+    </section>
+
+    <section class="panel hidden" id="presentation-panel">
+      <div class="panel-heading">
+        <div><p class="section-index">05</p><h2>生成演示文稿</h2></div>
+        <p>生成后可预览并下载可编辑 PPTX。</p>
+      </div>
+      <div class="actions"><button id="generate-button" class="primary">生成并自动检查</button></div>
+      <div id="progress-area" class="progress-area hidden">
+        <div class="progress-track"><span id="progress-bar"></span></div>
+        <p id="progress-message">准备生成……</p>
+      </div>
+      <div id="artifact-area" class="hidden">
+        <div id="preview-grid" class="preview-grid"></div>
+        <a id="download-link" class="download" href="#">下载可编辑 PPTX</a>
+      </div>
+    </section>
+
+    <section id="message" class="message hidden" role="status"></section>
+  </main>
+  <script src="/ui/app.js" defer></script>
+</body>
+</html>
