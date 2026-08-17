@@ -1,0 +1,52 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "chemresearch-agent"
+version = "0.1.0"
+description = "Evidence-grounded agent for organic chemistry literature presentations"
+requires-python = ">=3.12"
+dependencies = [
+  "fastapi>=0.115,<1",
+  "httpx>=0.28,<1",
+  "pydantic>=2.10,<3",
+  "pydantic-settings>=2.7,<3",
+  "pillow>=10,<13",
+  "python-pptx>=1.0.2,<2",
+  "pymupdf>=1.25,<2",
+  "python-multipart>=0.0.20,<1",
+  "uvicorn[standard]>=0.34,<1",
+]
+
+[project.optional-dependencies]
+dev = [
+  "pytest>=8.3,<9",
+  "ruff>=0.9,<1",
+]
+pdf = [
+  "pdfplumber>=0.11,<1",
+  "pypdf>=6,<7",
+]
+pdf-heavy = ["docling>=2.70,<3"]
+pdf-cloud = ["mineru-open-sdk>=0.2,<1"]
+llm-openai = ["openai>=1.75,<3"]
+competition = ["openai>=1.75,<3"]
+
+[project.scripts]
+chemresearch-parser-benchmark = "chemresearch_agent.evaluation.pdf_parsers.cli:main"
+chemresearch-preflight = "chemresearch_agent.api.preflight:main"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/chemresearch_agent"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["src"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py312"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B"]
